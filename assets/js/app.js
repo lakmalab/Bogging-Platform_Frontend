@@ -1,20 +1,31 @@
 console.log("Hello")
-function savePost() {
+var selectedTags = [];
 
+$(document).ready(function () {
+    var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+      removeItemButton: true,
+      maxItemCount: 7,
+      searchResultLimit: 10,
+   
+    });
+
+    multipleCancelButton.passedElement.element.addEventListener('change', function (event) {
+      selectedTags = Array.from(event.target.selectedOptions).map(option => option.value);
+      console.log(selectedTags);
+    });
+  });
+
+function savePost() {
         const newPost = {
-        id: 4,
-        title: "New Phone Z",
+        id: 5,
+        title: document.getElementById("title").value,
         content: "Writing clean code makes your projects easier to read, maintain, and scale. This post covers some essential tips for improving your code quality...",
-        tags: [
-            "Clean Code",
-            "Best Practices",
-            "Development"
-        ],
+        tags: selectedTags,
         category: "Software Engineering",
         comments_count: 22222,
         createdAt: "2025-05-27T18:10:13",
         updated_at: "2025-05-27T18:10:13",
-        image_url: "ADD_YOUR_IMAGE_URL_HERE"
+        image_url:  document.getElementById("imgUrl").value
         }
          fetch("http://localhost:8080/add", {
         method: 'POST',
@@ -25,7 +36,7 @@ function savePost() {
          })
 }
 
-document.getElementById("save-button")
+document.getElementById("addBtn")
     .addEventListener("click", savePost )
 
 function loadPosts() {
