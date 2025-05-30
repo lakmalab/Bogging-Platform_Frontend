@@ -1,9 +1,32 @@
-console.log("Hello")
-var selectedTags = [];
+console.log("Full post")
+function loadfullpost(){
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id"), 10);
+    console.log(id);
 
-///////////////////////// Load Post////////////////////////////
+    fetch("http://localhost:8080/")
+    .then(res => res.json())
+        .then(dataList => {
+            postsArrayList = dataList;
+        document.getElementById("fullTitile").textContent = postsArrayList[id-1].title;
+        document.getElementById("content").textContent = postsArrayList[id-1].content;
+        document.getElementById("createdDate").textContent =postsArrayList[id-1].createdAt;
+
+        const tags = postsArrayList[id-1].tags;
+        const tagsContainer = document.getElementById('tagsContainer');
+
+        tags.forEach(tag => {
+            const tagElement = document.createElement('a');
+            tagElement.href = "";
+            tagElement.innerHTML = `<span class="badge badge-pill p-2 badge-light">${tag}</span>`;
+            tagsContainer.appendChild(tagElement);
+        });
+    });
+
+}
+
 function loadPosts() {
-    let postsList = document.getElementById("postsList");
+    let postsList = document.getElementById("article-grid");
 
     let body = "";
 
@@ -13,15 +36,16 @@ function loadPosts() {
         .then(dataList => {
             postsArrayList = dataList;
             loadModalData();
-            dataList.forEach((element, index) => {
+            const limitedPosts = dataList.slice(0, 2);
+            limitedPosts.forEach((element, index) => {
 
             body += `<div class="row">
            <a href="assets/html/single.html?id=${postsArrayList[index].id}">
  <div class="row justify-content-center">
-  <div class="col-8 ">
+  <div class="col-11 ">
     <div class="article-card">
       <div class="article-author d-flex align-items-center mb-2">
-        <img src="assets/img/programmer.png" alt="Author" class="rounded-circle" width="32" height="32">
+        <img src="../img/programmer.png" alt="Author" class="rounded-circle" width="32" height="32">
         <div class="ms-2">
           <strong>Lakmal Abeyrathne</strong>
           <span class="badge bg-primary ms-1">✦✦</span>
@@ -70,7 +94,7 @@ async function loadModalData(index) {
   <div class="col-xl-6 col-lg-6">
     <div class="article-card">
       <div class="article-author d-flex align-items-center mb-2">
-        <img src="assets/img/programmer.png" alt="Author" class="rounded-circle" width="32" height="32">
+        <img src="./img/programmer.png" alt="Author" class="rounded-circle" width="32" height="32">
         <div class="ms-2">
           <strong>Lakmal Abeyrathne</strong>
           <span class="badge bg-primary ms-1">✦✦</span>
@@ -103,79 +127,20 @@ async function loadModalData(index) {
 </div>
 `;
 }
+function deletePost(){
+    
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id"), 10);
+    console.log(id);
 
-function loadfullpost(){
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-
-fetch(`http://localhost:8080/${id}`)
-  .then(res => res.json())
-  .then(post => {
-    document.getElementById("fullTitile").textContent = post.title;
-     console.log(post.title);
-  });
-
+    fetch("http://localhost:8080/" + id, {
+    method: 'DELETE',
+    })
+    .then(res => res.text()) // or res.json()
+    .then(res => console.log(res))
 }
-window.onload = loadfullpost;
+loadfullpost();
 
-function search() {
-    let searchTxt = document.getElementById("txtSearch").value;
-    console.log(searchTxt);
-    fetch(`https://restcountries.com/v3.1/all`).then(res => res.json())
-        .then(data => {
-            console.log(data);
-        })
-}
+ loadPosts()
 
-loadPosts();
-
-
-
-
-///////////////////////// Load Posts End////////////////////////////
-
-///////////////////////// Add Post////////////////////////////
-$(document).ready(function () {
-    var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
-      removeItemButton: true,
-      maxItemCount: 7,
-      searchResultLimit: 10,
-   
-    });
-
-    multipleCancelButton.passedElement.element.addEventListener('change', function (event) {
-      selectedTags = Array.from(event.target.selectedOptions).map(option => option.value);
-      console.log(selectedTags);
-    });
-  });
-
-function savePost() {
-        const newPost = {
-        id: 5,
-        title: document.getElementById("title").value,
-        content: "Writing clean code makes your projects easier to read, maintain, and scale. This post covers some essential tips for improving your code quality...",
-        tags: selectedTags,
-        category: "Software Engineering",
-        comments_count: 22222,
-        createdAt: "2025-05-27T18:10:13",
-        updated_at: "2025-05-27T18:10:13",
-        image_url:  document.getElementById("imgUrl").value
-        }
-         fetch("http://localhost:8080/add", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify(newPost)
-         })
-}
-
-document.getElementById("addBtn")
-    .addEventListener("click", savePost )
-
-
-
-document.getElementById("btn-load-product")
-    .addEventListener("click", loadPosts)
-
-///////////////////////// Add Post End////////////////////////////
+ 
