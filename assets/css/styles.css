@@ -2,6 +2,8 @@
 body {
 	text-rendering : optimizeLegibility;
 	-webkit-font-smoothing : antialiased;
+		
+	
 }
 
 a:hover {
@@ -278,4 +280,47 @@ footer a {
 		width: 300px;
 		height: 300px;
 	}
+}
+
+
+.article-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    transition: box-shadow 0.3s;
+}
+
+.article-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.article-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.date {
+    font-size: 0.9em;
+    color: #888;
+}
+
+.article-content {
+    margin: 10px 0;
+    font-size: 1em;
+}
+
+.article-meta {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.tags {
+    margin: 5px 0;
+}
+
+.reactions-count, .comments-count {
+    display: inline-block;
+    margin-right: 10px;
 }
