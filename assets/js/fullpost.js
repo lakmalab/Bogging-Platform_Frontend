@@ -127,8 +127,13 @@ async function loadModalData(index) {
 </div>
 `;
 }
+function goToEditPage() {
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id"), 10);
+    window.location.href = `../html/editPost.html?id=${id}`;
+}
 function deletePost(){
-    
+
     const params = new URLSearchParams(window.location.search);
     const id = parseInt(params.get("id"), 10);
     console.log(id);
@@ -142,5 +147,6 @@ function deletePost(){
 loadfullpost();
 
  loadPosts()
+
 
  

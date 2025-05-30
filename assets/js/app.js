@@ -153,7 +153,7 @@ function savePost() {
         const newPost = {
         id: 5,
         title: document.getElementById("title").value,
-        content: "Writing clean code makes your projects easier to read, maintain, and scale. This post covers some essential tips for improving your code quality...",
+        content: document.getElementById("content").value,
         tags: selectedTags,
         category: "Software Engineering",
         comments_count: 22222,
@@ -174,8 +174,5 @@ document.getElementById("addBtn")
     .addEventListener("click", savePost )
 
 
-
-document.getElementById("btn-load-product")
-    .addEventListener("click", loadPosts)
 
 ///////////////////////// Add Post End////////////////////////////
