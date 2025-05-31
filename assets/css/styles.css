@@ -406,3 +406,12 @@ footer a {
 .modal.show .modal-dialog {
     transform: scale(1);
 }
+
+#hero {
+  /*  background-image: url(/assets/img/banner.jpg); */
+  background-size: cover;                  /* Make it fill the area */
+  background-position: center;            /* Center the image */
+  background-repeat: no-repeat;           /* Avoid tiling */
+  height: 100vh;                          /* Fill full viewport height */
+  width: 100%;                            /* Fill full width */
+}
